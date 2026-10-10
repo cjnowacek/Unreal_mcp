@@ -103,7 +103,11 @@ public class EngineWireFab : ModuleRules
         {
             foreach (string subDir in Directory.GetDirectories(rootDir))
             {
-                if (string.Equals(Path.GetFileName(subDir), targetName, StringComparison.OrdinalIgnoreCase)) return true;
+                // A directory name alone is not a module: installed engines can ship a
+                // content-only Plugins/MegascansPlugin with no Source, which UBT then
+                // rejects with "Could not find definition for module".
+                if (string.Equals(Path.GetFileName(subDir), targetName, StringComparison.OrdinalIgnoreCase)
+                    && File.Exists(Path.Combine(subDir, targetName + ".Build.cs"))) return true;
                 if (maxDepth > 0 && SearchDirectoryBounded(subDir, targetName, maxDepth - 1)) return true;
             }
         }

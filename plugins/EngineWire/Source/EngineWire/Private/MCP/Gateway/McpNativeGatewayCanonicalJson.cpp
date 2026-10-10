@@ -64,7 +64,7 @@ bool AppendObject(const TSharedPtr<FJsonObject>& Object, FString& Out, bool bAll
 	}
 	// UE FString relational operators are case-INsensitive; discovery output is
 	// diffed against JSON.stringify key order, which is by code unit.
-	Entries.Sort([](const TPair<FString, TSharedPtr<FJsonValue>>& L, const TPair<FString, TSharedPtr<FJsonValue>>& R)
+	Entries.Sort([](const auto& L, const auto& R)
 		{ return L.Key.Compare(R.Key, ESearchCase::CaseSensitive) < 0; });
 
 	Out.AppendChar(TEXT('{'));
